@@ -1,14 +1,16 @@
 # Trading Bot
 
-### Getting historical data
-number of 1m klines = 151200 = (1515888000000 - 1506816000000) / 600000
-Utilize ```SELECT COUNT(*) FROM table_name;```
-Utilize ```SELECT MAX(open_time) FROM table_name;```
+### Getting historical data (get_klines.py)
+Utilize ```SELECT COUNT(*) FROM table_name;``` and  ```SELECT MAX(open_time) FROM table_name;``` when the query fails to update start at the last entry point recorded.
 
-number of 3m klines = 50400 = (1515888000000 - 1506816000000) / 1800000
-Utilize ```SELECT COUNT(*) FROM table_name;```
-Utilize ```SELECT MAX(open_time) FROM table_name;```
+Can refer to **error.log** and **success.log** for more detailed failure report.
 
-number of 5m klines = 30240 = (1515888000000 - 1506816000000) / 3000000
-Utilize ```SELECT COUNT(*) FROM table_name;```
-Utilize ```SELECT MAX(open_time) FROM table_name;```
+|Kline Time | Total # of Entries For Training Set |
+| :-------: | :---------------------------------: |
+| 1m | 151200 |
+| 3m | 50400 |
+| 5m | 30240 |
+
+## TODO
+1. clean up code and pylint error messages
+2. get tensor flow and try training some models
