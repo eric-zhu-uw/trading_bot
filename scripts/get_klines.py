@@ -2,50 +2,70 @@
 get_klines
 '''
 
-import time
-from boto3 import resource
+import datetime
 from binance.client import Client
+from create_klines_schema import *
 import constants    #figure out how to clean up
 
-def get_klines():
+def get_klines(TableName, interval, start_time=constants.START_DATE):
     '''
     get_klines
     '''
     client = Client('', '')
-    dynamodb_resource = resource('dynamodb')
-    table = dynamodb_resource.Table('OneMinute')
-    start_time = constants.START_DATE
-    print client.ping()
+    if client.ping() == {}:
+        print 'Binance Connection Successful!'
 
     while start_time < constants.END_DATE:
-        klines = client.get_klines(
-            symbol=constants.ETH_USDT,
-            interval=Client.KLINE_INTERVAL_1MINUTE,
-            limit=500,
-            startTime=start_time
-        )
+        try:
+            klines = client.get_klines(
+                symbol=constants.ETH_USDT,
+                interval=interval,
+                limit=500,
+                startTime=start_time
+            )
+        except Exception as e:
+            with open('error.log', 'a') as f:
+                f.write('========================================\n')
+                f.write(str(e) + '\n')
+                f.write('Failed At Timestamp: ' + str(start_time) + ' on api request\n')
+                f.write('Failing Time: ' + str(datetime.datetime.now()) + '\n')
+                f.close()
+                exit()
 
-        for kline in klines:
+        for k in klines:
+            try:
+                TableName.create(
+                    open_time=k[0],
+                    open=float(k[1]),
+                    high=float(k[2]),
+                    low=float(k[3]),
+                    close=float(k[4]),
+                    volume=float(k[5]),
+                    close_time=k[6],
+                    quote_asset_volume=float(k[7]),
+                    num_of_trades=k[8],
+                    taker_buy_base_asset_volume=float(k[9]),
+                    taker_buy_quote_asset_volume=float(k[10])
+                ).save()
+            except Exception as e:
+                with open('error.log', 'a') as f:
+                    print e
+                    f.write('========================================\n')
+                    f.write(str(e) + '\n')
+                    f.write('Failed At Timestamp: ' + str(k[0]) + ' on insert\n')
+                    f.write('Failing Time: ' + str(datetime.datetime.now()) + '\n')
+                    f.close()
+                    exit()
 
-            row = {}
-            row[constants.OPEN_TIME] = kline[0]
-            row[constants.OPEN] = kline[1]
-            row[constants.HIGH] = kline[2]
-            row[constants.LOW] = kline[3]
-            row[constants.CLOSE] = kline[4]
-            row[constants.VOLUME] = kline[5]
-            row[constants.CLOSE_TIME] = kline[6]
-            row[constants.NUM_TRADES] = kline[7]
-            row[constants.TAKER_BUY_BASE_ASSET_VOLUME] = kline[8]
-            row[constants.TAKER_BUY_QUOTE_ASSET_VOLUME] = kline[9]
+        with open('success.log', 'a') as f:
+            f.write('========================================\n')
+            f.write('Finished : [' + str(start_time) + ', ' +
+                    str(start_time + (500 * constants.MINUTE)) + ']\n')
+            f.write('Passed Time: ' + str(datetime.datetime.now()) + '\n')
+            f.close()
 
-            table.put_item(Item=row)
-
-        print klines[-1]
-        start_time = klines[-1][0] + constants.SECOND
-        time.sleep(30)
-
+        start_time = start_time + (2500 * constants.MINUTE)
 
 if __name__ == "__main__":
-    get_klines()
-    print 'SUCCESS!'
+    get_klines(KlineFive, Client.KLINE_INTERVAL_5MINUTE, 1515076800000 + (5 * constants.MINUTE))
+    print 'Finished script!'

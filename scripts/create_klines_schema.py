@@ -1,6 +1,27 @@
-import boto3
+from peewee import *
+import env
+import os
 
-# Schema of One Minute
+env.set_db_env()
+db = MySQLDatabase(
+    'crypto',
+    user=os.environ['DB_USER'],
+    password=os.environ['DB_PASSWORD'],
+    host=os.environ['DB_HOST'],
+    port=int(os.environ['DB_PORT'])
+)
+
+if db.connect():
+    print 'Successful DB connection'
+else:
+    print 'Failed to connect'
+    exit()
+
+class BaseModel(Model):
+    class Meta:
+        database = db
+
+# Schema for Kline API
 #     1499040000000,       Open time
 #     "0.01634790",        Open
 #     "0.80000000",        High
@@ -14,30 +35,53 @@ import boto3
 #     "28.46694368",       Taker buy quote asset volume
 #     "17928899.62484339"  Can be ignored
 
-# Get the service resource.
-dynamodb = boto3.resource('dynamodb')
+class KlineOne(BaseModel):
+    open_time = BigIntegerField(primary_key=True)
+    open = DoubleField()
+    high = DoubleField()
+    low = DoubleField()
+    close = DoubleField()
+    volume = DoubleField()
+    close_time = BigIntegerField()
+    quote_asset_volume = DoubleField()
+    num_of_trades = IntegerField()
+    taker_buy_base_asset_volume = DoubleField()
+    taker_buy_quote_asset_volume = DoubleField
 
-# Create the DynamoDB table.
-table = dynamodb.create_table(
-    TableName='OneMinute',
-    KeySchema=[
-        {
-            'AttributeName': 'open_time',
-            'KeyType': 'HASH'
-        }
-    ],
-    AttributeDefinitions=[
-        {
-            'AttributeName': 'open_time',
-            'AttributeType': 'N'
-        }
-    ],
-    ProvisionedThroughput={
-        'ReadCapacityUnits': 500,
-        'WriteCapacityUnits': 500
-    }
-)
+    class Meta:
+        table_name = 'kline_one'
 
-# Wait until the table exists.
-table.meta.client.get_waiter('table_exists').wait(TableName='OneMinute')
-print(table.item_count)
+
+class KlineThree(BaseModel):
+    open_time = BigIntegerField(primary_key=True)
+    open = DoubleField()
+    high = DoubleField()
+    low = DoubleField()
+    close = DoubleField()
+    volume = DoubleField()
+    close_time = BigIntegerField()
+    quote_asset_volume = DoubleField()
+    num_of_trades = IntegerField()
+    taker_buy_base_asset_volume = DoubleField()
+    taker_buy_quote_asset_volume = DoubleField
+
+    class Meta:
+        table_name = 'kline_three'
+
+class KlineFive(BaseModel):
+    open_time = BigIntegerField(primary_key=True)
+    open = DoubleField()
+    high = DoubleField()
+    low = DoubleField()
+    close = DoubleField()
+    volume = DoubleField()
+    close_time = BigIntegerField()
+    quote_asset_volume = DoubleField()
+    num_of_trades = IntegerField()
+    taker_buy_base_asset_volume = DoubleField()
+    taker_buy_quote_asset_volume = DoubleField
+
+    class Meta:
+        table_name = 'kline_five'
+
+db.create_tables([KlineOne, KlineThree, KlineFive])
