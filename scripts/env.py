@@ -5,7 +5,7 @@ import os
 
 def set_db_env():
     '''
-    setting environment variables up
+    setting db environment variables up
     '''
     os.environ['DB_USER'] = 'root'
     os.environ['DB_PASSWORD'] = '...'
