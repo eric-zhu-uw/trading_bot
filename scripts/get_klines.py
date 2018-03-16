@@ -64,8 +64,8 @@ def get_klines(TableName, interval, start_time=constants.START_DATE):
             f.write('Passed Time: ' + str(datetime.datetime.now()) + '\n')
             f.close()
 
-        start_time = start_time + (2500 * constants.MINUTE)
+        start_time = start_time + (500 * constants.MINUTE)
 
 if __name__ == "__main__":
-    get_klines(KlineFive, Client.KLINE_INTERVAL_5MINUTE, 1515076800000 + (5 * constants.MINUTE))
+    get_klines(KlineOne, Client.KLINE_INTERVAL_1MINUTE)
     print 'Finished script!'

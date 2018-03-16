@@ -1,4 +1,4 @@
-#!/Users/ericzhu/trading-bot/ENV/bin/python
+#!/Users/ericzhu/trading_bot/ENV/bin/python
 
 # -*- coding: utf-8 -*-
 import re
