@@ -1,6 +1,9 @@
-from peewee import *
-import env
+'''
+setup kline tables in mysql
+'''
 import os
+from peewee import MySQLDatabase, Model, BigIntegerField, DoubleField, IntegerField
+import env
 
 env.set_db_env()
 db = MySQLDatabase(
@@ -35,7 +38,12 @@ class BaseModel(Model):
 #     "28.46694368",       Taker buy quote asset volume
 #     "17928899.62484339"  Can be ignored
 
-class KlineOne(BaseModel):
+# FOR CUR1/CUR2
+# quote asset volume: volume of CUR2 bought & sold
+# taker buy base asset volume: volume market takers bought of CUR1 (sold of CUR1)
+# taker buy quote asset volume: volume market takers bought of CUR2
+
+class Kline1(BaseModel):
     open_time = BigIntegerField(primary_key=True)
     open = DoubleField()
     high = DoubleField()
@@ -43,16 +51,16 @@ class KlineOne(BaseModel):
     close = DoubleField()
     volume = DoubleField()
     close_time = BigIntegerField()
-    quote_asset_volume = DoubleField()
+    total_quote_asset_volume = DoubleField()
     num_of_trades = IntegerField()
-    taker_buy_base_asset_volume = DoubleField()
-    taker_buy_quote_asset_volume = DoubleField
+    taker_buy_base_asset_volume = DoubleField() #how many
+    taker_buy_quote_asset_volume = DoubleField()
 
     class Meta:
-        table_name = 'kline_one'
+        table_name = 'kline_1'
 
 
-class KlineThree(BaseModel):
+class Kline3(BaseModel):
     open_time = BigIntegerField(primary_key=True)
     open = DoubleField()
     high = DoubleField()
@@ -60,15 +68,15 @@ class KlineThree(BaseModel):
     close = DoubleField()
     volume = DoubleField()
     close_time = BigIntegerField()
-    quote_asset_volume = DoubleField()
+    total_quote_asset_volume = DoubleField()
     num_of_trades = IntegerField()
     taker_buy_base_asset_volume = DoubleField()
-    taker_buy_quote_asset_volume = DoubleField
+    taker_buy_quote_asset_volume = DoubleField()
 
     class Meta:
-        table_name = 'kline_three'
+        table_name = 'kline_3'
 
-class KlineFive(BaseModel):
+class Kline5(BaseModel):
     open_time = BigIntegerField(primary_key=True)
     open = DoubleField()
     high = DoubleField()
@@ -76,12 +84,44 @@ class KlineFive(BaseModel):
     close = DoubleField()
     volume = DoubleField()
     close_time = BigIntegerField()
-    quote_asset_volume = DoubleField()
+    total_quote_asset_volume = DoubleField()
     num_of_trades = IntegerField()
     taker_buy_base_asset_volume = DoubleField()
-    taker_buy_quote_asset_volume = DoubleField
+    taker_buy_quote_asset_volume = DoubleField()
 
     class Meta:
-        table_name = 'kline_five'
+        table_name = 'kline_5'
 
-db.create_tables([KlineOne, KlineThree, KlineFive])
+class Kline15(BaseModel):
+    open_time = BigIntegerField(primary_key=True)
+    open = DoubleField()
+    high = DoubleField()
+    low = DoubleField()
+    close = DoubleField()
+    volume = DoubleField()
+    close_time = BigIntegerField()
+    total_quote_asset_volume = DoubleField()
+    num_of_trades = IntegerField()
+    taker_buy_base_asset_volume = DoubleField()
+    taker_buy_quote_asset_volume = DoubleField()
+
+    class Meta:
+        table_name = 'kline_15'
+
+class Kline30(BaseModel):
+    open_time = BigIntegerField(primary_key=True)
+    open = DoubleField()
+    high = DoubleField()
+    low = DoubleField()
+    close = DoubleField()
+    volume = DoubleField()
+    close_time = BigIntegerField()
+    total_quote_asset_volume = DoubleField()
+    num_of_trades = IntegerField()
+    taker_buy_base_asset_volume = DoubleField()
+    taker_buy_quote_asset_volume = DoubleField()
+
+    class Meta:
+        table_name = 'kline_30'
+
+db.create_tables([Kline1, Kline3, Kline5, Kline15, Kline30])
