@@ -1,5 +1,15 @@
 # Trading Bot
 
+## Table of Contents
+1. [Model](#model)
+2. [How To Use Files](#how-to-use-files)
+
+## Model
+### Input Data
+### Optimizer
+### Loss Function
+
+## How To Use Files
 ### Setup (env.py)
 Move **temp_env.py** into **scripts/env.py**.
 
