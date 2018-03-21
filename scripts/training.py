@@ -1,7 +1,7 @@
 '''
 model training
 '''
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 import pandas as pd
 import numpy as np
@@ -20,7 +20,7 @@ print 'The testing count indicies are: [' + str(training_count) + ',' + str(coun
 X_train = []
 Y_train = []
 
-for i in range(0, 10):
+for i in range(0, 1000):
     X_val = df.iloc[i:i+30][['open']].transpose().iloc[0]
     # print X_val.values
     X_train.append(X_val.values)
@@ -35,16 +35,11 @@ Y_train = np.array(Y_train)
 # print X_train
 # print Y_train
 
-# data.split(',') # 3,4,5,6,7 -> [3,4,5,6,7]
-
-model = Sequential()
+# model = Sequential()
+model = load_model('model.h5')
 
 # adding input layer and current layer
-model.add(Dense(40, input_shape=(30,)))
-model.add(Dense(1, activation='sigmoid'))
-
 # defining the model
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 filepath = 'somename.hdf5'
 
@@ -65,7 +60,7 @@ model.fit(X_train, Y_train, epochs=100, batch_size=64, callbacks=callbacks)
 
 #finished training and don't want to retrain
 # save the weights are already saved into the <somename.hdf5> so you don't wanna retrain
-model.load_weights('somename.hdf5')
-
+# model.load_weights('somename.hdf5')
+# model.evaluate()
 ## input vector sequence in same format and get result
 # model.predict()

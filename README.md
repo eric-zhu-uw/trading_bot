@@ -7,6 +7,8 @@
 ## Model
 ### Input Data
 ### Optimizer
+Try a variety and decide which one to settle on based off accuracy (minimizes loss the most)
+Should have a graph to show each example
 ### Loss Function
 
 ## How To Use Files
@@ -31,5 +33,6 @@ Can refer to **error.log** and **success.log** for more detailed failure report.
 | 5m | 30240 |
 
 ## TODO
-1. clean up code and pylint error messages
-2. get tensor flow and try training some models
+1. start trying different models and recording the results
+2. fix model printing information
+3. fix up features to get more information
