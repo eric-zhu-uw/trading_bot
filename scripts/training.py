@@ -11,7 +11,7 @@ from features import Features
 from keras.callbacks import ModelCheckpoint
 
 if __name__ == "__main__":
-    FEATURE = Features()
+    FEATURE = Features(simple_moving_average=True)
     MODEL = load_model('model.h5')
     FILEPATH = 'somename.hdf5'
 
@@ -26,9 +26,10 @@ if __name__ == "__main__":
         save_best_only=True,
         mode='mine',
     )
-    X_TRAIN = FEATURE.get_x_train()
+    X_TRAIN = FEATURE.get_x_train(data_range=10)
+    print len(X_TRAIN[0])
     Y_TRAIN = FEATURE.get_y_train()
 
     # training of the model
-    MODEL.fit(X_TRAIN, Y_TRAIN, epochs=100, batch_size=64, callbacks=[CHECKPOINT])
+    # MODEL.fit(X_TRAIN, Y_TRAIN, epochs=100, batch_size=64, callbacks=[CHECKPOINT])
     print 'Finished script!'
