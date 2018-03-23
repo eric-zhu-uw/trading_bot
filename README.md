@@ -2,10 +2,34 @@
 
 ## Table of Contents
 1. [Model](#model)
+    * [Feature Selection](#feature-selection)
 2. [How To Use Files](#how-to-use-files)
 
 ## Model
-### Input Data
+### Feature Selection
+
+| X Feature Name | Description |
+| :------------: | :---------: |
+| RSI (relative strength indicator) | ![equation](formulas/rsi.png) where RS is the average gain of up period / average gain of down period. |
+| MFI (money flow index) | ![equation](formulas/mfi-price.png) ![equation](formulas/mfi-moneyflow.png) ![equation](formulas/mfi-mfr.png) ![equation](formulas/mfi.png) often times called a *wieghted* RSI |
+| PROC (price rate of change) | ![equation](formulas/proc.png) is a measure of the rate of change between periods.|
+| volume overall | Total volume of bought and sold of the quoted cryptocurrency |
+| taker buy base asset volume | Total volume bought of the base ticker USDT of ETH/USDT |
+| taker buy quote asset volume | Total volume bought of the quote ticker ETH of of ETH/USDT |
+| high | The highest price reached in the kline interval |
+| low | The lowest price reached in the kline interval |
+| close | The closing price reached in the kline interval |
+| LSMA (long simple moving average) | The average of the entire sequence's closing price |
+| SSMA (short simple moving average) | The average of 1/3 of the sequence's most recent closing prices |
+
+| Y Feature Name | Description |
+| :------------: | :---------: |
+| Next Klines Avg Price | ![equation](formulas/mfi-price.png) |
+| Next Kline Avg Price One-Hot Encoding | put into categories... |
+| Range | ... |
+| Look a couple Klines ahead avg price | ... |
+| Next kline volume | ... |
+
 ### Optimizer
 Try a variety and decide which one to settle on based off accuracy (minimizes loss the most)
 Should have a graph to show each example
