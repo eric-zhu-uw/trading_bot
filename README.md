@@ -12,10 +12,10 @@
 | :------------: | :---------: |
 | RSI (relative strength indicator) | ![equation](formulas/rsi.png) where RS is the average gain of up period / average gain of down period. |
 | MFI (money flow index) | ![equation](formulas/mfi-price.png) ![equation](formulas/mfi-moneyflow.png) ![equation](formulas/mfi-mfr.png) ![equation](formulas/mfi.png) often times called a *wieghted* RSI |
-| PROC (price rate of change) | ![equation](formulas/proc.png) is a measure of the rate of change between periods.|
+| PROC (price rate of change) | ![equation](formulas/proc.png) change in price between periods |
 | volume overall | Total volume of bought and sold of the quoted cryptocurrency |
-| taker buy base asset volume | Total volume bought of the base ticker USDT of ETH/USDT |
-| taker buy quote asset volume | Total volume bought of the quote ticker ETH of of ETH/USDT |
+| taker buy base asset volume | Total volume bought of the base ticker ETH of ETH/USDT |
+| taker buy quote asset volume | Total volume bought of the quote ticker USDT of of ETH/USDT |
 | high | The highest price reached in the kline interval |
 | low | The lowest price reached in the kline interval |
 | close | The closing price reached in the kline interval |
