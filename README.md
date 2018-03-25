@@ -56,6 +56,21 @@ Can refer to **error.log** and **success.log** for more detailed failure report.
 | 3m | 50400 |
 | 5m | 30240 |
 
+### Creating new features (get_features.py)
+Utilizing the historical data gotten from ```get_klines.py```, create new features and store them in the mysql database.
+
+Specify the TableName and the interval of interest and for each feature, it will create a string with the same # of values as the interval. This can then be converted to a dataset ```training_rows * features * interval_size``` 
+
+Ex: Given 10 features of interval size 5, 1 training entry would look like:
+```
+RSI: '30 40 35 60 90'
+...
+...
+SSMA: '340 341.5 341.2 341 341.01'
+y: '0 0 0 0 1'
+```
+
+
 ## TODO
 1. start trying different models and recording the results
 2. fix model printing information
