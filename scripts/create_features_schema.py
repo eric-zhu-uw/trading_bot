@@ -26,18 +26,19 @@ class BaseModel(Model):
 
 class FeaturesInt10(BaseModel):
     id = PrimaryKeyField(primary_key=True)
-    rsi = DoubleField()
-    mfi = DoubleField()
-    proc = DoubleField()
+    rsi = CharField()
+    mfi = CharField()
+    proc = CharField()
     total_quote_volume = CharField()
     buy_quote_volume = CharField()
     buy_base_volume = CharField()
     high = CharField()
     low = CharField()
     close = CharField()
-    lsma = DoubleField()
-    ssma = DoubleField()
+    lsma = CharField()
+    ssma = CharField()
     num_trades = CharField()
+    y = IntegerField()
     class Meta:
         table_name = 'features_int10'
 
