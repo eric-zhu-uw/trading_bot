@@ -4,6 +4,8 @@
 1. [Model](#model)
     * [Feature Selection](#feature-selection)
 2. [How To Use Files](#how-to-use-files)
+    * [Getting Historical Data](#getting-historical-data-get_klinespy)
+    * [Creating New Features](#creating-new-features-get_featurespy)
 
 ## Model
 ### Feature Selection
@@ -45,7 +47,8 @@ This is because **env.py** is in **.gitignore** to protect your credentials for 
 
 <br/>
 
-### Getting historical data (get_klines.py)
+### Getting Historical Data (get_klines.py)
+
 Utilize ```SELECT COUNT(*) FROM table_name;``` and  ```SELECT MAX(open_time) FROM table_name;``` when the query fails to update start at the last entry point recorded.
 
 Can refer to **error.log** and **success.log** for more detailed failure report.
@@ -56,10 +59,11 @@ Can refer to **error.log** and **success.log** for more detailed failure report.
 | 3m | 50400 |
 | 5m | 30240 |
 
-### Creating new features (get_features.py)
+### Creating New Features (get_features.py)
+
 Utilizing the historical data gotten from ```get_klines.py```, create new features and store them in the mysql database.
 
-Specify the TableName and the interval of interest and for each feature, it will create a string with the same # of values as the interval. This can then be converted to a dataset ```training_rows * features * interval_size``` 
+Specify the TableName and the interval of interest and for each feature, it will create a string with the same # of values as the interval. This can then be converted to a dataset ```training_rows * features * interval_size```
 
 Ex: Given 10 features of interval size 5, 1 training entry would look like:
 ```
