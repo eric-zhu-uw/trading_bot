@@ -51,9 +51,10 @@ class Features:
 
         x_train = []
         for i in range(int_size, int_size+data_range):
-            open_price = self.data_frame.iloc[i:i+int_size][['open']].transpose().iloc[0]
-            x_val = open_price.values.tolist()
-            x_train.append(x_val)
+            x_val = self.data_frame.iloc[i:i+int_size][['open']].transpose().iloc[0].values.tolist()
+
+            for j, op in enumerate(x_val):
+                x_val[j] = [op]
 
             if self.simple_moving_average:
                 sma = []
@@ -63,26 +64,94 @@ class Features:
 
                 for j in range(i, i+int_size):
                     close = self.data_frame.iloc[j-int_size:j][['close']].transpose().iloc[0]
-                    close = close.values
-
+                    close = close.values.tolist()
                     long_sma = sum(close) / lsma
-                    mid_sma = sum(close[lsma - msma-1:-1]) / msma
-                    short_sma = sum(close[lsma - ssma-1:-1]) / ssma
-                    sma.extend([long_sma, mid_sma, short_sma])
-                x_train[-1].extend(sma)
+                    mid_sma = sum(close[lsma-msma-1:-1]) / msma
+                    short_sma = sum(close[lsma-ssma-1:-1]) / ssma
+                    sma.append([long_sma, mid_sma, short_sma])
 
+                for j in range(len(x_val)):
+                    x_val[j].extend(sma[j])
+
+            x_train.append(x_val)
         return np.array(x_train)
 
-    def get_y_train(self, dataRange=None):
+    def get_y_train(self, data_range=None):
         '''
         get the Y-training set
         '''
-        if dataRange is None:
-            dataRange = self.training_count
+        if data_range is None:
+            data_range = self.training_count
 
+        int_size = self.interval_size
         y_train = []
-        for i in range(0, 1000):
-            y_val = self.data_frame.iloc[i+30][['open']]
-            y_train.append(y_val.values)
+        for i in range(int_size, int_size+data_range):
+            prev_y_val = self.data_frame.iloc[i+int_size-1][['close']].values
+            y_val = self.data_frame.iloc[i+int_size][['close']].values
+            if prev_y_val <= y_val:
+                y_val = 0
+            else:
+                y_val = 1
+
+            y_train.append(y_val)
         y_train = np.array(y_train)
+        print y_train
+        return y_train
+
+    def get_x_test(self, data_range=None):
+        '''
+        get the X-training set
+        '''
+        if data_range is None:
+            data_range = self.count - self.interval_size - 1
+
+        int_size = self.interval_size
+
+        x_train = []
+        for i in range(self.training_count + int_size, self.training_count + int_size + 1000):
+            x_val = self.data_frame.iloc[i:i+int_size][['open']].transpose().iloc[0].values.tolist()
+
+            for j, op in enumerate(x_val):
+                x_val[j] = [op]
+
+            if self.simple_moving_average:
+                sma = []
+                lsma = self.long_sma
+                msma = self.mid_sma
+                ssma = self.short_sma
+
+                for j in range(i, i+int_size):
+                    close = self.data_frame.iloc[j-int_size:j][['close']].transpose().iloc[0]
+                    close = close.values.tolist()
+                    long_sma = sum(close) / lsma
+                    mid_sma = sum(close[lsma-msma-1:-1]) / msma
+                    short_sma = sum(close[lsma-ssma-1:-1]) / ssma
+                    sma.append([long_sma, mid_sma, short_sma])
+
+                for j in range(len(x_val)):
+                    x_val[j].extend(sma[j])
+
+            x_train.append(x_val)
+        return np.array(x_train)
+
+    def get_y_test(self, data_range=None):
+        '''
+        get the Y-training set
+        '''
+        if data_range is None:
+            data_range = self.count - self.interval_size - 1
+
+        int_size = self.interval_size
+        y_train = []
+        for i in range(self.training_count + int_size, self.training_count + int_size + 1000):
+            prev_y_val = self.data_frame.iloc[i+int_size-1][['close']].values
+            y_val = self.data_frame.iloc[i+int_size][['close']].values
+            if prev_y_val <= y_val:
+                y_val = 0
+            else:
+                y_val = 1
+
+            y_train.append(y_val)
+        y_train = np.array(y_train)
+        print y_train
         return y_train
