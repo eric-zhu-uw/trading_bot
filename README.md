@@ -4,8 +4,11 @@
 1. [Model](#model)
     * [Feature Selection](#feature-selection)
 2. [How To Use Files](#how-to-use-files)
+    * [Setup](#setup-envpy)
+    * [Defining mySQL Tables](#defining-mysql-tables-create_schemapy)
     * [Getting Historical Data](#getting-historical-data-get_klinespy)
     * [Creating New Features](#creating-new-features-get_featurespy)
+    * [Getting Feature Scaling Information](#getting-feature-scaling-information-get_feature_infopy)
 
 ## Model
 ### Feature Selection
@@ -47,6 +50,10 @@ This is because **env.py** is in **.gitignore** to protect your credentials for 
 
 <br/>
 
+### Defining mySQL Tables (create_schema.py)
+
+To create all the tables necessary for testing your model, run all scripts with the name create_schema.py
+
 ### Getting Historical Data (get_klines.py)
 
 Utilize ```SELECT COUNT(*) FROM table_name;``` and  ```SELECT MAX(open_time) FROM table_name;``` when the query fails to update start at the last entry point recorded.
@@ -74,8 +81,21 @@ SSMA: '340 341.5 341.2 341 341.01'
 y: '0 0 0 0 1'
 ```
 
+### Getting Feature Scaling Information (get_feature_info.py)
+
+Given a **csv**, **table_name** and **feature_name**, determine important statistics about the data such as:
+  * min
+  * max
+  * mean
+  * standard deviation
+
+and save it in the table ```feature_info``` with the columns:
+
+  * table_name
+  * feature_name
+  * statistics ...
+
+
 
 ## TODO
-1. start trying different models and recording the results
-2. fix model printing information
-3. fix up features to get more information
+1. update feature selection info to be more readable
