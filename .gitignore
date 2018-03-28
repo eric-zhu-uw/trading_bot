@@ -3,3 +3,4 @@ success.log
 *.pyc
 scripts/env.py
 .DS_Store
+*.csv
