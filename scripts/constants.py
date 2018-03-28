@@ -16,6 +16,19 @@ ETH_USDT = 'ETHUSDT'
 ONE_MINUTE = 'OneMinute'
 THREE_MINUTES = 'ThreeMinutes'
 FIVE_MINUTES = 'FiveMinutes'
+FEATURES_INT10 = 'features_int10'
 
-# dynamodb
-DYNAMODB = 'dynamodb'
+Features = {
+    'RSI':'rsi',
+    'MFI':'mfi',
+    'PROC':'proc',
+    'TOTAL_QUOTE_VOLUME':'total_quote_volume',
+    'BUY_QUOTE_VOLUME':'buy_quote_volume',
+    'BUY_BASE_VOLUME':'buy_base_volume',
+    'HIGH':'high',
+    'LOW':'low',
+    'CLOSE':'close',
+    'LSMA':'lsma',
+    'SSMA':'ssma',
+    'NUM_TRADES':'num_trades'
+}
