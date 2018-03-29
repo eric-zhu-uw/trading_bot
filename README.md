@@ -84,17 +84,17 @@ y: '0 0 0 0 1'
 ### Getting Feature Scaling Information (get_feature_info.py)
 
 Given a **csv**, **table_name** and **feature_name**, determine important statistics about the data such as:
-  * min
-  * max
-  * mean
-  * standard deviation
-
-and save it in the table ```feature_info``` with the columns:
-
-  * table_name
-  * feature_name
-  * statistics ...
-
+```
+min
+max
+mean
+standard deviation
+```
+and save it in the table ```feature_info``` with the required columns:
+```
+table_name
+feature_name
+```
 
 
 ## TODO
