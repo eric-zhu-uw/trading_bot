@@ -1,19 +1,22 @@
 '''
 defining the machine learning model
 '''
-from keras.models import Sequential, load_model
-from keras.layers import Dense
+# pylint: disable=E0401
+# pylint: disable=W0403
+from keras.models import Sequential
+from keras.layers import Dense, LSTM
 
-model = Sequential()
-model.add(Dense(15, input_shape=(30,)))
-model.add(Dense(1))
-model.compile(loss='mean_squared_error', optimizer='adam')
+MODEL = Sequential()
+MODEL.add(LSTM(6, input_shape=(10, 12)))
+MODEL.add(Dense(1, activation='sigmoid'))
+MODEL.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-print "===// View Model Definition //==="
-for i, layer in enumerate(model.layers):
+print "/=== View Model Definition ===/"
+for i, layer in enumerate(MODEL.layers):
     print "--------"
     print "Layer " + str(i)
     print "--------"
     print layer.get_config()
 
-model.save('model.h5')
+MODEL.save('model_1.h5')
+print 'Finished script!'

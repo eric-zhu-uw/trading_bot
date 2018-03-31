@@ -3,6 +3,7 @@
 ## Table of Contents
 1. [Model](#model)
     * [Feature Selection](#feature-selection)
+    * [List of Models](#list-of-models)
 2. [How To Use Files](#how-to-use-files)
     * [Setup](#setup-envpy)
     * [Defining mySQL Tables](#defining-mysql-tables-create_schemapy)
@@ -35,10 +36,24 @@
 | Look a couple Klines ahead avg price | ... |
 | Next kline volume | ... |
 
-### Optimizer
-Try a variety and decide which one to settle on based off accuracy (minimizes loss the most)
-Should have a graph to show each example
-### Loss Function
+## List of Models
+
+### model_1.h5
+```
+# Model Definition
+MODEL = Sequential()
+MODEL.add(LSTM(6, input_shape=(10, 12)))
+MODEL.add(Dense(1, activation='sigmoid'))
+MODEL.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# Model Fit
+model.fit(x_train, y_train, epochs=100, batch_size=64, callbacks=[checkpoint])
+```
+
+![model_1_training_score](formulas/model_1_training_score.png)
+![model_1_test_score](formulas/model_1_test_score.png)
+
+
 
 ## How To Use Files
 ### Setup (env.py)
@@ -99,3 +114,5 @@ feature_name
 
 ## TODO
 1. update feature selection info to be more readable
+2. save more model information
+3. get some graphs
