@@ -18,6 +18,12 @@ THREE_MINUTES = 'ThreeMinutes'
 FIVE_MINUTES = 'FiveMinutes'
 FEATURES_INT10 = 'features_int10'
 
+# interval size
+INTERVAL10 = 10
+
+# training ratio
+TRAINING_RATIO = 0.8
+
 Features = {
     'RSI':'rsi',
     'MFI':'mfi',
