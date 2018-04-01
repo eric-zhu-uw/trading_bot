@@ -3,7 +3,7 @@ populate mysql database with all feature fields filled out
 will trim all invalid entries
 create multiple different datasets
 '''
-from create_features_schema import FeaturesInt10
+from create_features_schema import FeaturesInt10, FI10Mar1Mar30
 import constants
 import pandas as pd
 import numpy as np
@@ -130,6 +130,6 @@ def validate_chronological(self, df):
 
 
 if __name__ == "__main__":
-    DF = pd.read_csv('kline_one.csv')
-    get_features(FeaturesInt10, DF, 10)
+    DF = pd.read_csv('kline_1_mar1_mar30.csv')
+    get_features(FI10Mar1Mar30, DF, 10)
     print 'Finished script!'

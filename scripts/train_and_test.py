@@ -7,7 +7,7 @@ from keras.models import load_model
 from keras.callbacks import ModelCheckpoint
 import pandas as pd
 import numpy as np
-from constants import FEATURES_INT10, INTERVAL10, Features, TRAINING_RATIO
+from constants import FEATURES_INT10, INTERVAL10, Features, TRAINING_RATIO, FEATURES_INT10_MAR1_MAR30
 from create_feature_info_schema import FeatureInfo
 
 def train_model(table_name, model_name, interval_size, train=True, test=True):
@@ -89,7 +89,7 @@ def train_model(table_name, model_name, interval_size, train=True, test=True):
         x_test = []
         y_test = []
 
-        for i in range(training_count, testing_count):
+        for i in range(0, testing_count):
             x_val = df.iloc[i].drop(['id', 'y']).values.tolist()
             y_val = df.iloc[i]['y']
 
@@ -112,7 +112,7 @@ def train_model(table_name, model_name, interval_size, train=True, test=True):
             x_test.append(x_columns)
             y_test.append(y_val)
 
-        x_test = np.reshape(x_test, (testing_count-training_count, 10, 12))
+        x_test = np.reshape(x_test, (testing_count, 10, 12))
         y_test = np.array(y_test)
 
         filepath = model_name + '.hdf5'
@@ -126,5 +126,5 @@ def train_model(table_name, model_name, interval_size, train=True, test=True):
         print 'ACCURACY: ' + str(score[1])
 
 if __name__ == "__main__":
-    train_model(FEATURES_INT10, 'model_2', INTERVAL10)
+    train_model(FEATURES_INT10_MAR1_MAR30, 'model_1', INTERVAL10, train=False)
     print 'Finished script!'

@@ -3,7 +3,7 @@ populate mysql database with feature information such as:
  min/max/mean etc.
 '''
 from create_feature_info_schema import FeatureInfo
-from constants import Features, FEATURES_INT10
+from constants import Features, FEATURES_INT10, FEATURES_INT10_MAR1_MAR30
 import pandas as pd
 
 def get_min_max(df, table_name, feature_name):
@@ -41,7 +41,7 @@ def get_min_max(df, table_name, feature_name):
         )
 
 if __name__ == "__main__":
-    DF = pd.read_csv(FEATURES_INT10 + '.csv')
+    DF = pd.read_csv(FEATURES_INT10_MAR1_MAR30 + '.csv')
     for key in Features:
-        get_min_max(DF, FEATURES_INT10, Features[key])
+        get_min_max(DF, FEATURES_INT10_MAR1_MAR30, Features[key])
     print 'Finished script!'

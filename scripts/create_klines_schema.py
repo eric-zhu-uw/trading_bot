@@ -124,4 +124,20 @@ class Kline30(BaseModel):
     class Meta:
         table_name = 'kline_30'
 
-db.create_tables([Kline1, Kline3, Kline5, Kline15, Kline30])
+class Kline1_Mar1_Mar30(BaseModel):
+    open_time = BigIntegerField(primary_key=True)
+    open = DoubleField()
+    high = DoubleField()
+    low = DoubleField()
+    close = DoubleField()
+    volume = DoubleField()
+    close_time = BigIntegerField()
+    total_quote_asset_volume = DoubleField()
+    num_of_trades = IntegerField()
+    taker_buy_base_asset_volume = DoubleField()
+    taker_buy_quote_asset_volume = DoubleField()
+
+    class Meta:
+        table_name = 'kline_1_mar1_mar30'
+
+db.create_tables([Kline1, Kline3, Kline5, Kline15, Kline30, Kline1_Mar1_Mar30])

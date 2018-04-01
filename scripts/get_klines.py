@@ -3,10 +3,16 @@ populate mysql database with kline data from Binance
 '''
 import datetime
 from binance.client import Client
-from create_klines_schema import Kline1, Kline3, Kline5, Kline15, Kline30
-import constants    #figure out how to clean up
+from create_klines_schema import Kline1, Kline3, Kline5, Kline15, Kline30, Kline1_Mar1_Mar30
+from constants import (
+    ETH_USDT,
+    MARCH_1_2018_12AM,
+    MARCH_30_2018_12AM,
+    MINUTE,
+    KLINE_INTERVAL_MAR1_MAR30
+)
 
-def get_klines(symbol, kline_interval, start_time=constants.START_DATE):
+def get_klines(symbol, kline_interval, start_time, end_time):
     '''
     get_klines
     '''
@@ -18,7 +24,7 @@ def get_klines(symbol, kline_interval, start_time=constants.START_DATE):
     limit = 500
     interval = client.KLINE_INTERVAL_1MINUTE
     KlineModel = Kline1
-    time_between_start_time = kline_interval * limit * constants.MINUTE
+
 
     # update parameters depending on interval
     if kline_interval == 3:
@@ -33,8 +39,14 @@ def get_klines(symbol, kline_interval, start_time=constants.START_DATE):
     elif kline_interval == 30:
         KlineModel = Kline30
         interval = client.KLINE_INTERVAL_30MINUTE
+    elif kline_interval == KLINE_INTERVAL_MAR1_MAR30:
+        KlineModel = Kline1_Mar1_Mar30
+        interval = client.KLINE_INTERVAL_1MINUTE
+        kline_interval = 1
 
-    while start_time < constants.END_DATE:
+    time_between_start_time = kline_interval * limit * MINUTE
+
+    while start_time < end_time:
         try:
             klines = client.get_klines(
                 symbol=symbol,
@@ -86,5 +98,5 @@ def get_klines(symbol, kline_interval, start_time=constants.START_DATE):
         start_time = start_time + time_between_start_time
 
 if __name__ == "__main__":
-    get_klines(constants.ETH_USDT, 1514017800000 + (30 * constants.MINUTE))
+    get_klines(ETH_USDT, KLINE_INTERVAL_MAR1_MAR30, MARCH_1_2018_12AM, MARCH_30_2018_12AM)
     print 'Finished script!'

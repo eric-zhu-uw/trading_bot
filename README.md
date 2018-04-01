@@ -54,6 +54,8 @@ model.fit(x_train, y_train, epochs=100, batch_size=64, callbacks=[checkpoint])
 
 ![model_1_training_score](formulas/model_1_training_score.png)
 ![model_1_test_score](formulas/model_1_test_score.png)
+![model_1_test_score2](formulas/model_1_test_score2.png)
+
 
 ### model_2.h5
 ```
@@ -70,6 +72,8 @@ model.fit(x_train, y_train, epochs=150, batch_size=32, callbacks=[checkpoint])
 
 ![model_2_training_score](formulas/model_2_training_score.png)
 ![model_2_test_score](formulas/model_2_test_score.png)
+![model_2_test_score2](formulas/model_2_test_score2.png)
+
 
 
 
