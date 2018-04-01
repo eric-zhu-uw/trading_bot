@@ -76,7 +76,7 @@ def train_model(table_name, model_name, interval_size, train=True, test=True):
         y_train = np.array(y_train)
 
         # training of the model
-        model.fit(x_train, y_train, epochs=100, batch_size=64, callbacks=[checkpoint])
+        model.fit(x_train, y_train, epochs=150, batch_size=32, callbacks=[checkpoint])
 
         # free up memory
         x_train = []
@@ -126,5 +126,5 @@ def train_model(table_name, model_name, interval_size, train=True, test=True):
         print 'ACCURACY: ' + str(score[1])
 
 if __name__ == "__main__":
-    train_model(FEATURES_INT10, 'model_1', INTERVAL10, train=False)
+    train_model(FEATURES_INT10, 'model_2', INTERVAL10)
     print 'Finished script!'

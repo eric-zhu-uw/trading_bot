@@ -4,6 +4,8 @@
 1. [Model](#model)
     * [Feature Selection](#feature-selection)
     * [List of Models](#list-of-models)
+        * [model_1.h5](#model_1h5)
+        * [model_2.h5](#model_2h5)
 2. [How To Use Files](#how-to-use-files)
     * [Setup](#setup-envpy)
     * [Defining mySQL Tables](#defining-mysql-tables-create_schemapy)
@@ -52,6 +54,24 @@ model.fit(x_train, y_train, epochs=100, batch_size=64, callbacks=[checkpoint])
 
 ![model_1_training_score](formulas/model_1_training_score.png)
 ![model_1_test_score](formulas/model_1_test_score.png)
+
+### model_2.h5
+```
+# Model Definition
+MODEL = Sequential()
+MODEL.add(LSTM(12, input_shape=(10, 12)))
+MODEL.add(Dense(4, input_shape=(12,)))
+MODEL.add(Dense(1, activation='sigmoid'))
+MODEL.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# Model fit
+model.fit(x_train, y_train, epochs=150, batch_size=32, callbacks=[checkpoint])
+```
+
+![model_2_training_score](formulas/model_2_training_score.png)
+![model_2_test_score](formulas/model_2_test_score.png)
+
+
 
 
 
