@@ -1,26 +1,46 @@
 # Trading Bot
 
+A complete machine learning data pipeline for training Keras models to forecast cryptocurrency prices.
+
+With this information, create a trading application to interact with Binance and trade various cryptocurrencies.
+
 ## Table of Contents
-1. [Model](#model)
+1. [Pipeline](#pipeline)
+2. [Model](#model)
     * [Feature Selection](#feature-selection)
     * [List of Models](#list-of-models)
         * [model_1.h5](#model_1h5)
         * [model_2.h5](#model_2h5)
-2. [How To Use Files](#how-to-use-files)
+3. [How To Use Files](#how-to-use-files)
     * [Setup](#setup-envpy)
     * [Defining mySQL Tables](#defining-mysql-tables-create_schemapy)
     * [Getting Historical Data](#getting-historical-data-get_klinespy)
     * [Creating New Features](#creating-new-features-get_featurespy)
     * [Getting Feature Scaling Information](#getting-feature-scaling-information-get_feature_infopy)
 
+## Pipeline
+The pipeline consists of the following stages:
+1. Data fetched from [Binance API](https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md)
+2. Data preprocessing
+    * Splitting data into specified time series
+    * Deriving a variety of financial indicators
+    * Scaling and normalization
+    * Generating training y dataset
+3. Training various supervised learning models
+    * Neural Networks
+    * Recurrent Neural Networks
+    * LSTM
+4. Model evaluation: loss and accuracy
+
+
 ## Model
 ### Feature Selection
 
 | X Feature Name | Description |
 | :------------: | :---------: |
-| RSI (relative strength indicator) | ![equation](formulas/rsi.png) where RS is the average gain of up period / average gain of down period. |
-| MFI (money flow index) | ![equation](formulas/mfi-price.png) ![equation](formulas/mfi-moneyflow.png) ![equation](formulas/mfi-mfr.png) ![equation](formulas/mfi.png) often times called a *wieghted* RSI |
-| PROC (price rate of change) | ![equation](formulas/proc.png) change in price between periods |
+| RSI (relative strength indicator) | RS is the average gain of up period / average gain of down period. |
+| MFI (money flow index) | Often times called a *weighted* RSI |
+| PROC (price rate of change) | Change in price between periods |
 | volume overall | Total volume of bought and sold of the quoted cryptocurrency |
 | taker buy base asset volume | Total volume bought of the base ticker ETH of ETH/USDT |
 | taker buy quote asset volume | Total volume bought of the quote ticker USDT of of ETH/USDT |
@@ -33,10 +53,6 @@
 | Y Feature Name | Description |
 | :------------: | :---------: |
 | Next Klines Avg Price | ![equation](formulas/mfi-price.png) |
-| Next Kline Avg Price One-Hot Encoding | put into categories... |
-| Range | ... |
-| Look a couple Klines ahead avg price | ... |
-| Next kline volume | ... |
 
 ## List of Models
 
@@ -50,11 +66,13 @@ MODEL.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 
 # Model Fit
 model.fit(x_train, y_train, epochs=100, batch_size=64, callbacks=[checkpoint])
+
+# Results
+Loss: 0.6756
+Accuracy: 0.5724
 ```
 
 ![model_1_training_score](formulas/model_1_training_score.png)
-![model_1_test_score](formulas/model_1_test_score.png)
-![model_1_test_score2](formulas/model_1_test_score2.png)
 
 
 ### model_2.h5
@@ -68,15 +86,13 @@ MODEL.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 
 # Model fit
 model.fit(x_train, y_train, epochs=150, batch_size=32, callbacks=[checkpoint])
+
+# Results
+Loss: 0.6212
+Accuracy: 0.6572
 ```
 
 ![model_2_training_score](formulas/model_2_training_score.png)
-![model_2_test_score](formulas/model_2_test_score.png)
-![model_2_test_score2](formulas/model_2_test_score2.png)
-
-
-
-
 
 
 ## How To Use Files
@@ -134,9 +150,3 @@ and save it in the table ```feature_info``` with the required columns:
 table_name
 feature_name
 ```
-
-
-## TODO
-1. update feature selection info to be more readable
-2. save more model information
-3. get some graphs
